@@ -47,6 +47,15 @@ public abstract class Trail extends Permissible {
 		this.name = name;
 	}
 	
+	@Override
+	public String getNode() {
+		return "leap.trail." + name;
+	}
+	
+	/**
+	 * @param name
+	 * @return Trail with the specified name
+	 */
 	public static Trail getByName(String name) {
 		for (Trail trail : list)
 			if (trail.getName().equalsIgnoreCase(name))
@@ -54,13 +63,15 @@ public abstract class Trail extends Permissible {
 		return null;
 	}
 	
-	@Override
-	public String getNode() {
-		return "leap.trail." + name;
-	}
-	
+	/**
+	 * Plays the effect to all nearby players at the location
+	 * @param location
+	 */
 	public abstract void play(Location location);
 	
+	/**
+	 * @return Amount of particles
+	 */
 	public abstract int getParticleAmount();
 	
 }

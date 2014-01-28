@@ -88,23 +88,36 @@ public class Leap extends JavaPlugin {
 		return anticheat;
 	}
 	
-	public List<Trail> getTrails(Gamer g) {
+	/**
+	 * @param gamer
+	 * @return List of trails that this gamer has permission to use
+	 */
+	public List<Trail> getTrails(Gamer gamer) {
 		List<Trail> trails = new ArrayList<Trail>();
 		
 		for (Trail trail : Trail.getList()) {
-			if (trail.hasPermission(g))
+			if (trail.hasPermission(gamer))
 				trails.add(trail);
 		}
 		
 		return trails;
 	}
 	
+	/**
+	 * @param username
+	 * @return The trail that the specified user is currently using. Returns null if none.
+	 */
 	public Trail getTrail(String username) {
 		if (trails.containsKey(username) == false)
 			return null;
 		return trails.get(username);
 	}
 	
+	/**
+	 * Set the trail of a gamer
+	 * @param g The gamer
+	 * @param trail The trail to set
+	 */
 	public void setTrail(Gamer g, Trail trail) {
 		trails.put(g.getName(), trail);
 	}
