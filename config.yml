@@ -1,9 +1,11 @@
 # http://jd.bukkit.org/rb/apidocs/org/bukkit/Effect.html
+# Usage: "effect name:permission.required"
+# Do not include a permission to allow the effect for all players
 effects:
-- smoke
-- mobspawner flames
-- ender signal
-- potion break
+- smoke:leap.smoke
+- mobspawner flames:leap.flames
+- ender signal:leap.ender
+- potion break:leap.potion
 
 # http://jd.bukkit.org/rb/apidocs/org/bukkit/Sound.html
 sounds:

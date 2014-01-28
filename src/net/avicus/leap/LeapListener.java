@@ -2,8 +2,11 @@ package net.avicus.leap;
 
 import java.util.HashMap;
 
+import net.avicus.api.events.GamerJoinEvent;
 import net.avicus.api.events.PlayerDamageEvent;
 import net.avicus.api.events.PlayerOnGroundEvent;
+import net.gravitydevelopment.anticheat.api.AntiCheatAPI;
+import net.gravitydevelopment.anticheat.check.CheckType;
 
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -12,7 +15,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
-import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.util.Vector;
 
@@ -27,8 +29,9 @@ public class LeapListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onPlayerLogin(PlayerLoginEvent event) {
-		using.put(event.getPlayer().getName(), false);
+	public void onGamerJoin(GamerJoinEvent event) {
+		using.put(event.getGamer().getName(), false);
+		event.getGamer().setAllowFlight(event.getGamer().hasPermission("leap.use"));
 	}
 	
 	@EventHandler
@@ -48,6 +51,13 @@ public class LeapListener implements Listener {
 		if (event.getOnGround()) {
 			using.put(event.getPlayer().getName(), false);
 			event.getPlayer().setAllowFlight(true);
+
+			try {
+			    Class.forName("net.gravitydevelopment.anticheat.api.AntiCheatAPI");
+			    AntiCheatAPI.activateCheck(CheckType.FLY);
+			} catch(Exception e) {
+				
+			}
 		}
 	}
 
@@ -63,6 +73,13 @@ public class LeapListener implements Listener {
 		if (event.isFlying()) {
 			Player p = event.getPlayer();
 			
+			try {
+			    Class.forName("net.gravitydevelopment.anticheat.api.AntiCheatAPI");
+			    AntiCheatAPI.deactivateCheck(CheckType.FLY);
+			} catch(Exception e) {
+				
+			}
+			
 			using.put(p.getName(), true);
 			
 			event.setCancelled(true);
@@ -71,8 +88,9 @@ public class LeapListener implements Listener {
 			Vector newVelocity = p.getLocation().getDirection().multiply(1.0D * plugin.getVelocity()).setY(1.0 * plugin.getElevation());
 			p.setVelocity(newVelocity);
 
-			for (Effect effect : plugin.getEffects())
-				p.getWorld().playEffect(p.getLocation(), effect, effect.getId());
+			for (Effect effect : plugin.getEffects().keySet())
+				if (plugin.hasEffect(p, effect))
+					p.getWorld().playEffect(p.getLocation(), effect, effect.getId());
 
 			for (Sound sound : plugin.getSounds())
 				p.getWorld().playSound(p.getLocation(), sound, 1.0F, -5.0F);

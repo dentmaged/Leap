@@ -2,6 +2,7 @@ name: Leap
 main: net.avicus.leap.Leap
 version: 1.0
 depend: [Avicus]
+softdepend: [AntiCheat]
 author: funkystudios
 description: >
              LEAP! Double jump!
