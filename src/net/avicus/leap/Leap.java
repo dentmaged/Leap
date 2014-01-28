@@ -15,16 +15,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Leap extends JavaPlugin {
 	
-	Config configuration;
 	@Getter List<Effect> effects = new ArrayList<Effect>();
 	@Getter List<Sound> sounds = new ArrayList<Sound>();
+	@Getter double velocity;
+	@Getter double elevation;
 	
 	public void onEnable() {
-		
-		configuration = new Config(this);
-		
-
-		for (String raw : configuration.getStringList("effects")) {
+		Config config = new Config(this);
+		for (String raw : config.getStringList("effects")) {
 			try {
 				Effect effect = Effect.valueOf(raw.toUpperCase().replace(" ", "_"));
 				effects.add(effect);
@@ -33,7 +31,7 @@ public class Leap extends JavaPlugin {
 			}
 		}
 		
-		for (String raw : configuration.getStringList("sounds")) {
+		for (String raw : config.getStringList("sounds")) {
 			try {
 				Sound sound = Sound.valueOf(raw.toUpperCase().replace(" ", "_"));
 				sounds.add(sound);
@@ -42,6 +40,8 @@ public class Leap extends JavaPlugin {
 			}
 		}
 		
+		velocity = config.getDouble("velocity");
+		elevation = config.getDouble("elevation");
 		
 		Bukkit.getPluginManager().registerEvents(new LeapListener(this), this);
 	}

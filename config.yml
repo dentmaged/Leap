@@ -10,3 +10,9 @@ sounds:
 - bat takeoff
 - enderdragon wings
 - shoot arrow
+
+# The speed the player moves to where they are looking
+velocity: 2.0
+
+# Vertical velocity/push
+elevation: 1.5
