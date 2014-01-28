@@ -62,13 +62,14 @@ public class LeapListener implements Listener {
 		if (event.getOnGround()) {
 			using.put(event.getPlayer().getName(), false);
 			event.getPlayer().setAllowFlight(true);
-			
+
 			try {
-			    Class.forName("net.gravitydevelopment.anticheat.api.AntiCheatAPI");
-			    AntiCheatAPI.activateCheck(CheckType.FLY);
-			    AntiCheatAPI.activateCheck(CheckType.SPEED);
-			} catch(Exception e) {
-				
+				Class.forName("net.gravitydevelopment.anticheat.api.AntiCheatAPI");
+				AntiCheatAPI.activateCheck(CheckType.FLY);
+				AntiCheatAPI.activateCheck(CheckType.SPEED);
+				AntiCheatAPI.activateCheck(CheckType.WATER_WALK);
+			} catch (Exception e) {
+
 			}
 		}
 	}
@@ -86,13 +87,14 @@ public class LeapListener implements Listener {
 			Player p = event.getPlayer();
 			
 			try {
-			    Class.forName("net.gravitydevelopment.anticheat.api.AntiCheatAPI");
-			    	AntiCheatAPI.deactivateCheck(CheckType.FLY);
-			    	AntiCheatAPI.deactivateCheck(CheckType.SPEED);
-			} catch(Exception e) {
-				
+				Class.forName("net.gravitydevelopment.anticheat.api.AntiCheatAPI");
+				AntiCheatAPI.deactivateCheck(CheckType.FLY);
+				AntiCheatAPI.deactivateCheck(CheckType.SPEED);
+				AntiCheatAPI.deactivateCheck(CheckType.WATER_WALK);
+			} catch (Exception e) {
+
 			}
-			
+
 			using.put(p.getName(), true);
 			
 			event.setCancelled(true);
