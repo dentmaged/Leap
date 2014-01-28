@@ -1,11 +1,13 @@
 package net.avicus.leap;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import net.avicus.api.events.GamerJoinEvent;
 import net.avicus.api.events.PermissionModifyEvent;
 import net.avicus.api.events.PlayerDamageEvent;
 import net.avicus.api.events.PlayerOnGroundEvent;
+import net.avicus.api.tools.Schedule;
 import net.gravitydevelopment.anticheat.api.AntiCheatAPI;
 import net.gravitydevelopment.anticheat.check.CheckType;
 
@@ -22,8 +24,9 @@ import org.bukkit.util.Vector;
 public class LeapListener implements Listener {
 
 	private Leap plugin;
-	
+
 	private HashMap<String, Boolean> using = new HashMap<String, Boolean>();
+	private HashMap<String, Date> lastUse = new HashMap<String, Date>();
 	
 	public LeapListener(Leap plugin) {
 		this.plugin = plugin;
@@ -65,11 +68,9 @@ public class LeapListener implements Listener {
 
 			try {
 				Class.forName("net.gravitydevelopment.anticheat.api.AntiCheatAPI");
-				AntiCheatAPI.activateCheck(CheckType.FLY);
-				AntiCheatAPI.activateCheck(CheckType.SPEED);
-				AntiCheatAPI.activateCheck(CheckType.WATER_WALK);
+				toggleAntiCheat(event.getPlayer(), true);
 			} catch (Exception e) {
-
+				// AntiCheat not installed on server
 			}
 		}
 	}
@@ -84,16 +85,34 @@ public class LeapListener implements Listener {
 			return;
 		
 		if (event.isFlying()) {
-			Player p = event.getPlayer();
+			
+			final Player p = event.getPlayer();
 			
 			try {
+				
 				Class.forName("net.gravitydevelopment.anticheat.api.AntiCheatAPI");
-				AntiCheatAPI.deactivateCheck(CheckType.FLY);
-				AntiCheatAPI.deactivateCheck(CheckType.SPEED);
-				AntiCheatAPI.deactivateCheck(CheckType.WATER_WALK);
-			} catch (Exception e) {
+				toggleAntiCheat(event.getPlayer(), false);
 
+				final Date now = new Date();
+				
+				new Schedule() {
+
+					@Override
+					public void run() {
+						if (lastUse.get(p.getName()) != now)
+							return;
+
+						toggleAntiCheat(p, true);
+					}
+					
+				}.laterAsync((int) Math.ceil(20 * 4 * plugin.getElevation()));
+				
+				lastUse.put(p.getName(), now);
+				
+			} catch (Exception e) {
+				// AntiCheat not installed on server
 			}
+			
 
 			using.put(p.getName(), true);
 			
@@ -109,6 +128,19 @@ public class LeapListener implements Listener {
 
 			for (Sound sound : plugin.getSounds())
 				p.getWorld().playSound(p.getLocation(), sound, 1.0F, -5.0F);
+		}
+	}
+	
+	private void toggleAntiCheat(Player player, boolean enableAntiCheat) {
+		if (enableAntiCheat) {
+			AntiCheatAPI.unexemptPlayer(player, CheckType.FLY);
+			AntiCheatAPI.unexemptPlayer(player, CheckType.SPEED);
+			AntiCheatAPI.unexemptPlayer(player, CheckType.WATER_WALK);
+		}
+		else {
+			AntiCheatAPI.exemptPlayer(player, CheckType.FLY);
+			AntiCheatAPI.exemptPlayer(player, CheckType.SPEED);
+			AntiCheatAPI.exemptPlayer(player, CheckType.WATER_WALK);
 		}
 	}
 	
