@@ -56,7 +56,7 @@ public class LeapListener implements Listener {
 		if (event.getPlayer().hasPermission("leap.use") == false)
 			return;
 		
-		if (using.get(event.getPlayer().getName()))
+		if (using.get(event.getPlayer().getName()) == false)
 			return;
 		
 		if (event.getOnGround()) {
