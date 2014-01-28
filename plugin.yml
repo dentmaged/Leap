@@ -6,3 +6,9 @@ softdepend: [AntiCheat]
 author: funkystudios
 description: >
              LEAP! Double jump!
+commands:
+  trail:
+    aliases: [trails]
+    description: Modify your double jump trail
+    usage: /trail (name)
+    default: true

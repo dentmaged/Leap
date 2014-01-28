@@ -6,8 +6,12 @@ import java.util.List;
 
 import lombok.Getter;
 import net.avicus.api.config.Config;
+import net.avicus.api.player.Gamer;
 import net.avicus.api.utils.Chat;
 import net.avicus.api.utils.LogLevel;
+import net.avicus.leap.api.Trail;
+import net.avicus.leap.cmds.TrailCmd;
+import net.avicus.leap.listeners.LeapListener;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -23,6 +27,8 @@ public class Leap extends JavaPlugin {
 	@Getter double elevation;
 	
 	private boolean anticheat;
+	
+	private HashMap<String, Trail> trails = new HashMap<String, Trail>();
 	
 	public void onEnable() {
 		Config config = new Config(this);
@@ -58,6 +64,7 @@ public class Leap extends JavaPlugin {
 			Chat.log(LogLevel.NOTICE, "Connected to AntiCheat!");
 		
 		Bukkit.getPluginManager().registerEvents(new LeapListener(this), this);
+		getCommand("trail").setExecutor(new TrailCmd(this));
 	}
 	
 	/**
@@ -79,6 +86,27 @@ public class Leap extends JavaPlugin {
 	 */
 	public boolean hasAntiCheat() {
 		return anticheat;
+	}
+	
+	public List<Trail> getTrails(Gamer g) {
+		List<Trail> trails = new ArrayList<Trail>();
+		
+		for (Trail trail : Trail.getList()) {
+			if (trail.hasPermission(g))
+				trails.add(trail);
+		}
+		
+		return trails;
+	}
+	
+	public Trail getTrail(String username) {
+		if (trails.containsKey(username) == false)
+			return null;
+		return trails.get(username);
+	}
+	
+	public void setTrail(Gamer g, Trail trail) {
+		trails.put(g.getName(), trail);
 	}
 	
 }
