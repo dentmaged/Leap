@@ -1,0 +1,12 @@
+# http://jd.bukkit.org/rb/apidocs/org/bukkit/Effect.html
+effects:
+- smoke
+- mobspawner flames
+- ender signal
+- potion break
+
+# http://jd.bukkit.org/rb/apidocs/org/bukkit/Sound.html
+sounds:
+- bat takeoff
+- enderdragon wings
+- shoot arrow

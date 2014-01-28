@@ -1,0 +1,7 @@
+name: Leap
+main: net.avicus.leap.Leap
+version: 1.0
+depend: [Avicus]
+author: funkystudios
+description: >
+             LEAP! Double jump!
