@@ -3,6 +3,7 @@ package net.avicus.leap;
 import java.util.HashMap;
 
 import net.avicus.api.events.GamerJoinEvent;
+import net.avicus.api.events.PermissionModifyEvent;
 import net.avicus.api.events.PlayerDamageEvent;
 import net.avicus.api.events.PlayerOnGroundEvent;
 import net.gravitydevelopment.anticheat.api.AntiCheatAPI;
@@ -32,6 +33,13 @@ public class LeapListener implements Listener {
 	public void onGamerJoin(GamerJoinEvent event) {
 		using.put(event.getGamer().getName(), false);
 		event.getGamer().setAllowFlight(event.getGamer().hasPermission("leap.use"));
+	}
+	
+	@EventHandler
+	public void onPermissionModify(PermissionModifyEvent event) {
+		if (event.getPermission().equals("leap.use") == false)
+			return;
+		event.getGamer().setAllowFlight(event.isEnabled());
 	}
 	
 	@EventHandler
