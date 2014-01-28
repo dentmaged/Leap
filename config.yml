@@ -1,20 +1,23 @@
-# http://jd.bukkit.org/rb/apidocs/org/bukkit/Effect.html
-# Usage: "effect name:permission.required"
-# Do not include a permission to allow the effect for all players
+# Leap v2.0 Configuration File
+
+# EFFECTS # http://jd.bukkit.org/rb/apidocs/org/bukkit/Effect.html #
+# Effects that are fired upon using Leap
+# Format: "effect name:the.permission.needed"
+# Do not include a permission to allow the effect for all players.
 effects:
 - smoke:leap.smoke
 - mobspawner flames:leap.flames
 - ender signal:leap.ender
 - potion break:leap.potion
 
-# http://jd.bukkit.org/rb/apidocs/org/bukkit/Sound.html
+# SOUNDS # http://jd.bukkit.org/rb/apidocs/org/bukkit/Sound.html #
+# Sounds that are fired upon using Leap
+# Format: "sound name"
 sounds:
 - bat takeoff
 - enderdragon wings
 - shoot arrow
 
-# The speed the player moves to where they are looking
+# MOVEMENT #
 velocity: 2.0
-
-# Vertical velocity/push
 elevation: 1.5
