@@ -8,7 +8,7 @@ import org.bukkit.Location;
 public class Slime extends Trail {
 
 	public Slime() {
-		super("void");
+		super("slime");
 	}
 
 	@Override
