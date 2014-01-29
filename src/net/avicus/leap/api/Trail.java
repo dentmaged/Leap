@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.avicus.api.permissions.Permissible;
 import net.avicus.leap.api.trails.Cloud;
+import net.avicus.leap.api.trails.Critical;
 import net.avicus.leap.api.trails.Ember;
 import net.avicus.leap.api.trails.Ender;
 import net.avicus.leap.api.trails.Explosion;
@@ -16,13 +18,12 @@ import net.avicus.leap.api.trails.Rainbow;
 import net.avicus.leap.api.trails.Runes;
 import net.avicus.leap.api.trails.Slime;
 import net.avicus.leap.api.trails.Snow;
-import net.avicus.leap.api.trails.Critical;
 import net.avicus.leap.api.trails.Void;
 
 import org.bukkit.Location;
 
 public abstract class Trail extends Permissible {
-	
+
 	@Getter static List<Trail> list = new ArrayList<Trail>();
 	
 	static {
@@ -42,6 +43,7 @@ public abstract class Trail extends Permissible {
 	}
 	
 	@Getter String name;
+	@Getter @Setter boolean enabled;
 	
 	public Trail(String name) {
 		this.name = name;

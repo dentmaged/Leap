@@ -9,6 +9,7 @@ import net.avicus.api.events.GamerJoinEvent;
 import net.avicus.api.events.PermissionModifyEvent;
 import net.avicus.api.events.PlayerDamageEvent;
 import net.avicus.api.events.PlayerOnGroundEvent;
+import net.avicus.api.player.Gamer;
 import net.avicus.api.tools.Schedule;
 import net.avicus.leap.Leap;
 import net.avicus.leap.api.Trail;
@@ -22,6 +23,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.util.Vector;
@@ -38,17 +40,20 @@ public class LeapListener implements Listener {
 	}
 	
 	@EventHandler
+	public void onPlayerLogin(PlayerLoginEvent event) {
+		using.put(event.getPlayer().getName(), false);
+	}
+	
+	@EventHandler
 	public void onGamerJoin(GamerJoinEvent event) {
-		using.put(event.getGamer().getName(), false);
-		event.getGamer().setAllowFlight(event.getGamer().hasPermission("leap.use"));
+		Gamer g = event.getGamer();
+		g.setAllowFlight(g.hasPermission("leap.use"));
 		
-		List<Trail> trails = plugin.getTrails(event.getGamer());
+		List<Trail> trails = plugin.getTrails(g);
 		Collections.shuffle(trails);
 		
-		for (Trail trail : plugin.getTrails(event.getGamer())) {
-			plugin.setTrail(event.getGamer(), trail);
-			break;
-		}
+		if (trails.size() > 0)
+			plugin.setTrail(g, trails.get(0));
 	}
 	
 	@EventHandler
@@ -105,6 +110,8 @@ public class LeapListener implements Listener {
 		if (event.isFlying()) {
 			
 			final Player p = event.getPlayer();
+			event.setCancelled(true);
+			p.setAllowFlight(false);
 			
 			/*
 			 * AntiCheat?
@@ -140,9 +147,6 @@ public class LeapListener implements Listener {
 			 */
 			
 			using.put(p.getName(), true);
-			
-			event.setCancelled(true);
-			p.setAllowFlight(false);
 			
 			Vector newVelocity = p.getLocation().getDirection().multiply(1.0D * plugin.getVelocity()).setY(1.0 * plugin.getElevation());
 			p.setVelocity(newVelocity);

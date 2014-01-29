@@ -55,6 +55,12 @@ public class Leap extends JavaPlugin {
 			}
 		}
 		
+		for (String input : config.getStringList("trails")) {
+			Trail trail = Trail.getByName(input);
+			if (trail != null)
+				trail.setEnabled(true);
+		}
+		
 		velocity = config.getDouble("velocity");
 		elevation = config.getDouble("elevation");
 		
@@ -96,6 +102,9 @@ public class Leap extends JavaPlugin {
 		List<Trail> trails = new ArrayList<Trail>();
 		
 		for (Trail trail : Trail.getList()) {
+			if (trail.isEnabled() == false)
+				continue;
+			
 			if (trail.hasPermission(gamer))
 				trails.add(trail);
 		}

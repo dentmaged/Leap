@@ -19,28 +19,36 @@ public class TrailCmd extends SimpleCommand {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, String[] args) {
-		if (sender instanceof Player == false) {
-			Chat.player(sender, "&cOnly players are allowed to use this command.");
-			return true;
-		}
 		
 		if (args.length != 1) {
 			String trails = "";
 			for (Trail trail : Trail.getList())
-				trails += "&6" + trail.getName() + "&e, ";
-			trails = Chat.chomp(trails, 4);
+				if (trail.isEnabled())
+					trails += "&6" + trail.getName() + "&e, ";
+			
+			try {
+				trails = Chat.chomp(trails, 4);
+			} catch (Exception e) {
+				Chat.player(sender, "&cThere are no trails enabled.");
+				return true;
+			}
 			
 			Chat.player(sender, "&cUsage: /trail <name>");
 			Chat.player(sender, "&eTrails: " + trails);
 			return true;
 		}
 
+		if (sender instanceof Player == false) {
+			Chat.player(sender, "&cMust be a player in order to use trails.");
+			return true;
+		}
+		
 		Gamer g = Gamer.get(sender);
 		
 		String input = args[0].toLowerCase();
 		Trail trail = Trail.getByName(input);
 		
-		if (trail == null) {
+		if (trail == null || trail.isEnabled() == false) {
 			g.sendMessage("&cNo trail matched your query. Type /trails to see a list.");
 			return true;
 		}

@@ -18,6 +18,24 @@ sounds:
 - enderdragon wings
 - shoot arrow
 
+# TRAILS # https://github.com/funkystudios/Leap #
+# Remove trails from the list to disable them
+trails:
+- Cloud
+- Critical
+- Ember
+- Ender
+- Explosion
+- Fire
+- Heart
+- Portal
+- Rainbow
+- Runes
+- Slime
+- Snow
+- Void
+
 # MOVEMENT #
 velocity: 2.0
 elevation: 1.5
+
