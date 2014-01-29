@@ -183,11 +183,13 @@ public class LeapListener implements Listener {
 			AntiCheatAPI.unexemptPlayer(player, CheckType.FLY);
 			AntiCheatAPI.unexemptPlayer(player, CheckType.SPEED);
 			AntiCheatAPI.unexemptPlayer(player, CheckType.WATER_WALK);
+			AntiCheatAPI.unexemptPlayer(player, CheckType.SNEAK);
 		}
 		else {
 			AntiCheatAPI.exemptPlayer(player, CheckType.FLY);
 			AntiCheatAPI.exemptPlayer(player, CheckType.SPEED);
 			AntiCheatAPI.exemptPlayer(player, CheckType.WATER_WALK);
+			AntiCheatAPI.unexemptPlayer(player, CheckType.SNEAK);
 		}
 	}
 	
