@@ -88,13 +88,9 @@ public class LeapListener implements Listener {
 		if (event.getOnGround()) {
 			using.put(event.getPlayer().getName(), false);
 			event.getPlayer().setAllowFlight(true);
-
-			try {
-				Class.forName("net.gravitydevelopment.anticheat.api.AntiCheatAPI");
+			
+			if (plugin.hasAntiCheat())
 				toggleAntiCheat(event.getPlayer(), true);
-			} catch (Exception e) {
-				// AntiCheat not installed on server
-			}
 		}
 	}
 
@@ -116,10 +112,8 @@ public class LeapListener implements Listener {
 			/*
 			 * AntiCheat?
 			 */
-			
-			try {
-				
-				Class.forName("net.gravitydevelopment.anticheat.api.AntiCheatAPI");
+
+			if (plugin.hasAntiCheat()) {
 				toggleAntiCheat(event.getPlayer(), false);
 
 				final Date now = new Date();
@@ -137,9 +131,6 @@ public class LeapListener implements Listener {
 				}.laterAsync((int) Math.ceil(20 * 4 * plugin.getElevation()));
 				
 				lastUse.put(p.getName(), now);
-				
-			} catch (Exception e) {
-				// AntiCheat not installed on server
 			}
 
 			/* 
