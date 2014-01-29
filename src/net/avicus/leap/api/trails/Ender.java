@@ -18,7 +18,7 @@ public class Ender extends Trail {
 	
 	@Override
 	public int getParticleAmount() {
-		return 1;
+		return 3;
 	}
 
 }
