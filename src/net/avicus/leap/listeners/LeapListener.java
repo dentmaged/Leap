@@ -78,7 +78,7 @@ public class LeapListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onGround(PlayerOnGroundEvent event) {
+	public void onGround(PlayerOnGroundEvent event) {		
 		if (event.getPlayer().hasPermission("leap.use") == false)
 			return;
 		
@@ -88,9 +88,6 @@ public class LeapListener implements Listener {
 		if (event.getOnGround()) {
 			using.put(event.getPlayer().getName(), false);
 			event.getPlayer().setAllowFlight(true);
-			
-			if (plugin.hasAntiCheat())
-				toggleAntiCheat(event.getPlayer(), true);
 		}
 	}
 
@@ -189,7 +186,7 @@ public class LeapListener implements Listener {
 			AntiCheatAPI.exemptPlayer(player, CheckType.FLY);
 			AntiCheatAPI.exemptPlayer(player, CheckType.SPEED);
 			AntiCheatAPI.exemptPlayer(player, CheckType.WATER_WALK);
-			AntiCheatAPI.unexemptPlayer(player, CheckType.SNEAK);
+			AntiCheatAPI.exemptPlayer(player, CheckType.SNEAK);
 		}
 	}
 	
