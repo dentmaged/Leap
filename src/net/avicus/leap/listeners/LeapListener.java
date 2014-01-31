@@ -123,6 +123,8 @@ public class LeapListener implements Listener {
 							return;
 
 						toggleAntiCheat(p, true);
+						using.put(p.getName(), false);
+						p.setAllowFlight(true);
 					}
 					
 				}.laterAsync((int) Math.ceil(20 * 4 * plugin.getElevation()));
