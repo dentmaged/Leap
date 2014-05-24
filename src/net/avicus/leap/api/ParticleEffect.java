@@ -2,10 +2,10 @@ package net.avicus.leap.api;
 
 import java.lang.reflect.Field;
 
-import net.minecraft.server.v1_7_R2.PacketPlayOutWorldParticles;
+import net.minecraft.server.v1_7_R3.PacketPlayOutWorldParticles;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_7_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 

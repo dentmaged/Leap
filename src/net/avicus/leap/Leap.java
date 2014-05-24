@@ -31,7 +31,12 @@ public class Leap extends JavaPlugin {
 	private HashMap<String, Trail> trails = new HashMap<String, Trail>();
 	
 	public void onEnable() {
-		Config config = new Config(this);
+		Config config = null;
+		try {
+			config = new Config(this);
+		} catch (Exception e) {
+			// Shouldn't occur.
+		}
 		
 		for (String raw : config.getStringList("effects")) {
 			try {
