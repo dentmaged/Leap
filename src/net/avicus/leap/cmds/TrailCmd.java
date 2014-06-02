@@ -19,12 +19,17 @@ public class TrailCmd extends SimpleCommand {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, String[] args) {
+
+		Gamer g = Gamer.get(sender);
 		
 		if (args.length != 1) {
 			String trails = "";
-			for (Trail trail : Trail.getList())
-				if (trail.isEnabled())
-					trails += "&6" + trail.getName() + "&e, ";
+			for (Trail trail : Trail.getList()) {
+				if (trail.isEnabled()) {
+					String color = trail.hasPermission(g) ? "&a" : "&6";
+					trails += color + trail.getName() + "&e, ";
+				}
+			}
 			
 			try {
 				trails = Chat.chomp(trails, 4);
@@ -43,7 +48,6 @@ public class TrailCmd extends SimpleCommand {
 			return true;
 		}
 		
-		Gamer g = Gamer.get(sender);
 		
 		String input = args[0].toLowerCase();
 		Trail trail = Trail.getByName(input);
