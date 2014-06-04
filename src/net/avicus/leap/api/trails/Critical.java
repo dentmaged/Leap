@@ -1,5 +1,7 @@
 package net.avicus.leap.api.trails;
 
+import net.avicus.api.player.Gamer;
+import net.avicus.api.player.ToggleType;
 import net.avicus.leap.api.ParticleEffect;
 import net.avicus.leap.api.Trail;
 
@@ -13,7 +15,10 @@ public class Critical extends Trail {
 
 	@Override
 	public void play(Location l) {
-		ParticleEffect.CRIT.animateAtLocation(l, getParticleAmount(), 1F);
+		for (Gamer g : Gamer.getList()) {
+			if (ToggleType.TRAILS.getValue(g) == 0)
+				ParticleEffect.CRIT.animateToPlayer(g.getPlayer(), l, getParticleAmount(), 1F);
+		}
 	}
 	
 	@Override

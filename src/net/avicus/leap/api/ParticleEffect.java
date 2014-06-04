@@ -111,6 +111,26 @@ public enum ParticleEffect {
     }
     
     /**
+     * This is used to send a particle effect to only one player, no one else will see this.
+     * @param player
+     * @param location
+     * @param count
+     * @param speed
+     */
+    public void animateToPlayer(Player player, Location location, int count, float speed) {
+    	if(player == null)
+    		return;
+    	
+    	CraftPlayer craftPlayer = (CraftPlayer) player;
+    	
+    	try {
+			craftPlayer.getHandle().playerConnection.sendPacket(getParticle(location, xStack, yStack, zStack, speed, count));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+    
+    /**
      * This is used to send a particle effect to a location and all players near it will see it
      * @param location
      * @param count

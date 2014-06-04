@@ -1,5 +1,7 @@
 package net.avicus.leap.api.trails;
 
+import net.avicus.api.player.Gamer;
+import net.avicus.api.player.ToggleType;
 import net.avicus.api.utils.ParticleUtil;
 import net.avicus.leap.api.Trail;
 
@@ -13,7 +15,10 @@ public class Heart extends Trail {
 
 	@Override
 	public void play(Location l) {
-		ParticleUtil.HEART.animateAtLocation(l, getParticleAmount(), 1F);
+		for (Gamer g : Gamer.getList()) {
+			if (ToggleType.TRAILS.getValue(g) == 0)
+				ParticleUtil.HEART.animateToPlayer(g.getPlayer(), l, getParticleAmount(), 1F);
+		}
 	}
 	
 	@Override
