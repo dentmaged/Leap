@@ -12,6 +12,7 @@ import net.avicus.leap.api.trails.Ember;
 import net.avicus.leap.api.trails.Ender;
 import net.avicus.leap.api.trails.Explosion;
 import net.avicus.leap.api.trails.Fire;
+import net.avicus.leap.api.trails.Fireworks;
 import net.avicus.leap.api.trails.Heart;
 import net.avicus.leap.api.trails.Portal;
 import net.avicus.leap.api.trails.Rainbow;
@@ -40,6 +41,7 @@ public abstract class Trail extends Permissible {
 		list.add(new Critical());
 		list.add(new Cloud());
 		list.add(new Portal());
+		list.add(new Fireworks());
 	}
 	
 	@Getter String name;

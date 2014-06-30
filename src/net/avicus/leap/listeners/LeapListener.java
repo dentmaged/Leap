@@ -173,7 +173,7 @@ public class LeapListener implements Listener {
 						trail.play(p.getLocation());
 				}
 				
-			}.repeat(0, 2);
+			}.repeat(0, 3);
 		}
 	}
 	
