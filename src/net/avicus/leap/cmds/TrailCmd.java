@@ -1,13 +1,12 @@
 package net.avicus.leap.cmds;
 
 import net.avicus.api.command.SimpleCommand;
+import net.avicus.api.locale.T;
+import net.avicus.api.locale.W;
 import net.avicus.api.player.Gamer;
 import net.avicus.api.utils.Chat;
 import net.avicus.leap.Leap;
 import net.avicus.leap.api.Trail;
-
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class TrailCmd extends SimpleCommand {
 
@@ -18,10 +17,7 @@ public class TrailCmd extends SimpleCommand {
 	}
 	
 	@Override
-	public boolean onCommand(CommandSender sender, String[] args) {
-
-		Gamer g = Gamer.get(sender);
-		
+	public Result onCommand(Gamer g, String[] args) {		
 		if (args.length != 1) {
 			String trails = "";
 			for (Trail trail : Trail.getList()) {
@@ -34,42 +30,43 @@ public class TrailCmd extends SimpleCommand {
 			try {
 				trails = Chat.chomp(trails, 4);
 			} catch (Exception e) {
-				Chat.player(sender, "&cThere are no trails enabled.");
-				return true;
+				g.message("&c{0}", new T("hub/trails/noTrails"));
+				return null;
 			}
 			
-			Chat.player(sender, "&cUsage: /trail <name>");
-			Chat.player(sender, "&eTrails: " + trails);
-			return true;
+			g.message("&e{0}: &f{1}", new W("trail").caps().plural(), trails);
+			return null;
 		}
 
-		if (sender instanceof Player == false) {
-			Chat.player(sender, "&cMust be a player in order to use trails.");
-			return true;
-		}
-		
+		if (g.isConsole())
+			return Result.INVALID_PLAYER;
 		
 		String input = args[0].toLowerCase();
 		Trail trail = Trail.getByName(input);
 		
 		if (trail == null || trail.isEnabled() == false) {
-			g.sendMessage("&cNo trail matched your query. Type /trails to see a list.");
-			return true;
+			g.message("&c{0}", new T("hub/trails/noMatch"));
+			return null;
 		}
 		
 		if (plugin.getTrails(g).contains(trail) == false) {
-			g.sendMessage("&cYou haven't unlocked that trail!");
-			return true;
+			g.message("&c{0}", new T("hub/trails/locked"));
+			return null;
 		}
-		
-		g.sendMessage("&eYou are now using the trail, &6" + trail.getName().toUpperCase() + "&e!");
+
 		plugin.setTrail(g, trail);
-		return true;
+		g.message("&e{0}", new T("hub/trails/success", "&6" + trail.getName() + "&e"));
+		return null;
 	}
 
 	@Override
 	public String getNode() {
 		return null;
+	}
+
+	@Override
+	public String getUsage() {
+		return "/trail <name>";
 	}
 
 }
