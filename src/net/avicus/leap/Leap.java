@@ -26,7 +26,7 @@ public class Leap extends JavaPlugin {
 	@Getter double velocity;
 	@Getter double elevation;
 	
-	private boolean anticheat;
+	private boolean ncp;
 	
 	private HashMap<String, Trail> trails = new HashMap<String, Trail>();
 	
@@ -69,10 +69,10 @@ public class Leap extends JavaPlugin {
 		velocity = config.getDouble("velocity");
 		elevation = config.getDouble("elevation");
 		
-		anticheat = Bukkit.getServer().getPluginManager().getPlugin("AntiCheat") != null;
+		ncp = Bukkit.getServer().getPluginManager().getPlugin("NoCheatPlus") != null;
 		
-		if (anticheat)
-			Chat.log(LogLevel.NOTICE, "Connected to AntiCheat!");
+		if (ncp)
+			Chat.log(LogLevel.NOTICE, "Connected to NoCheatPlus!");
 		
 		Bukkit.getPluginManager().registerEvents(new LeapListener(this), this);
 		getCommand("trail").setExecutor(new TrailCmd(this));
@@ -95,8 +95,8 @@ public class Leap extends JavaPlugin {
 	/**
 	 * @return If the current server is running the AntiCheat plugin
 	 */
-	public boolean hasAntiCheat() {
-		return anticheat;
+	public boolean hasNCP() {
+		return ncp;
 	}
 	
 	/**

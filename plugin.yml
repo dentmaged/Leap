@@ -2,8 +2,8 @@ name: Leap
 main: net.avicus.leap.Leap
 version: 2.0
 depend: [Avicus]
-softdepend: [AntiCheat]
-author: funkystudios
+softdepend: [NoCheatPlus]
+author: IvyCode
 description: >
              LEAP! Double jump!
 commands:

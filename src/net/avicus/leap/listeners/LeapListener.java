@@ -13,8 +13,6 @@ import net.avicus.api.player.Gamer;
 import net.avicus.api.tools.Schedule;
 import net.avicus.leap.Leap;
 import net.avicus.leap.api.Trail;
-import net.gravitydevelopment.anticheat.api.AntiCheatAPI;
-import net.gravitydevelopment.anticheat.check.CheckType;
 
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -27,6 +25,9 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.util.Vector;
+
+import fr.neatmonster.nocheatplus.checks.CheckType;
+import fr.neatmonster.nocheatplus.hooks.NCPExemptionManager;
 
 public class LeapListener implements Listener {
 
@@ -110,8 +111,8 @@ public class LeapListener implements Listener {
 			 * AntiCheat?
 			 */
 
-			if (plugin.hasAntiCheat()) {
-				toggleAntiCheat(event.getPlayer(), false);
+			if (plugin.hasNCP()) {
+				toggleNCP(event.getPlayer(), false);
 
 				final Date now = new Date();
 				
@@ -122,7 +123,7 @@ public class LeapListener implements Listener {
 						if (lastUse.get(p.getName()) != now)
 							return;
 
-						toggleAntiCheat(p, true);
+						toggleNCP(p, true);
 						using.put(p.getName(), false);
 						p.setAllowFlight(true);
 					}
@@ -177,18 +178,12 @@ public class LeapListener implements Listener {
 		}
 	}
 	
-	private void toggleAntiCheat(Player player, boolean enableAntiCheat) {
+	private void toggleNCP(Player player, boolean enableAntiCheat) {
 		if (enableAntiCheat) {
-			AntiCheatAPI.unexemptPlayer(player, CheckType.FLY);
-			AntiCheatAPI.unexemptPlayer(player, CheckType.SPEED);
-			AntiCheatAPI.unexemptPlayer(player, CheckType.WATER_WALK);
-			AntiCheatAPI.unexemptPlayer(player, CheckType.SNEAK);
+			NCPExemptionManager.unexempt(player, CheckType.ALL);
 		}
 		else {
-			AntiCheatAPI.exemptPlayer(player, CheckType.FLY);
-			AntiCheatAPI.exemptPlayer(player, CheckType.SPEED);
-			AntiCheatAPI.exemptPlayer(player, CheckType.WATER_WALK);
-			AntiCheatAPI.exemptPlayer(player, CheckType.SNEAK);
+			NCPExemptionManager.exemptPermanently(player, CheckType.ALL);
 		}
 	}
 	
