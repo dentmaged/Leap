@@ -1,3 +1,5 @@
+Update 1/8/2015: This plugin is obsolete and unused on Avicus. Anyone is welcome to use its code.
+
 Leap
 ====
 
