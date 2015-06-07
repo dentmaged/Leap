@@ -1,9 +1,8 @@
 name: Leap
 main: net.avicus.leap.Leap
-version: 2.0
-depend: [Avicus]
+version: 3.0
 softdepend: [NoCheatPlus]
-author: IvyCode
+authors: [IvyCode, dentmaged]
 description: >
              LEAP! Double jump!
 commands:
@@ -12,3 +11,7 @@ commands:
     description: Modify your double jump trail
     usage: /trail (name)
     default: true
+
+permissions:
+  leap.*:
+   default: op
